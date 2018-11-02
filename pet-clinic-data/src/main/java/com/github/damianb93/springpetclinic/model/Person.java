@@ -1,6 +1,6 @@
 package com.github.damianb93.springpetclinic.model;
 
-public class Person extends BaseEntity {
+public class Person extends BaseEntity<Long> {
 
     private String firstName;
     private String lastName;
