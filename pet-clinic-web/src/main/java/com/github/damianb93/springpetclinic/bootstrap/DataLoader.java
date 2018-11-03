@@ -21,19 +21,19 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        createPerson(new Owner(), 1L, "Michael", "Weston");
-        createPerson(new Owner(), 2L, "Fiona", "Glenanne");
+        createPerson(new Owner(), "Michael", "Weston");
+        createPerson(new Owner(),  "Fiona", "Glenanne");
+        createPerson(new Owner(), "Jack", "Glenanne");
 
         System.out.println("LOADED OWNERS...");
 
-        createPerson(new Vet(), 1L, "Sam", "Axe");
-        createPerson(new Vet(), 2L, "Jessie", "Porter");
+        createPerson(new Vet(), "Sam", "Axe");
+        createPerson(new Vet(), "Jessie", "Porter");
 
         System.out.println("LOADED VETS...");
     }
 
-    private <T extends Person> void createPerson (T person, Long id, String firstName, String lastName) {
-        person.setId(id);
+    private <T extends Person> void createPerson (T person, String firstName, String lastName) {
         person.setFirstName(firstName);
         person.setLastName(lastName);
 

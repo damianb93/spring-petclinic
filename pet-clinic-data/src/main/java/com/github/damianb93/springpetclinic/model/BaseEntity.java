@@ -2,15 +2,15 @@ package com.github.damianb93.springpetclinic.model;
 
 import java.io.Serializable;
 
-public class BaseEntity<ID> implements Serializable {
+public class BaseEntity implements Serializable {
 
-    private ID id;
+    private Long id;
 
-    public ID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(ID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

@@ -5,5 +5,5 @@ import com.github.damianb93.springpetclinic.services.VetService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VetServiceMapImpl extends AbstractMapService<Vet, Long> implements VetService {
+public class VetServiceMapImpl extends AbstractMapService<Vet> implements VetService {
 }
