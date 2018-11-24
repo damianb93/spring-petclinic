@@ -23,4 +23,10 @@ public class OwnerController {
 
         return "owners/index";
     }
+
+    @GetMapping("find")
+    public String findOwners(Model model) {
+
+        return "notimplemented";
+    }
 }
