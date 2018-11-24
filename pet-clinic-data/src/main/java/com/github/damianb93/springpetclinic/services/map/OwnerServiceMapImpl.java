@@ -2,12 +2,22 @@ package com.github.damianb93.springpetclinic.services.map;
 
 import com.github.damianb93.springpetclinic.model.Owner;
 import com.github.damianb93.springpetclinic.services.OwnerService;
+import com.github.damianb93.springpetclinic.services.PetService;
+import com.github.damianb93.springpetclinic.services.PetTypeService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
 public class OwnerServiceMapImpl extends AbstractMapService<Owner> implements OwnerService {
+
+    private final PetService petService;
+    private final PetTypeService petTypeService;
+
+    public OwnerServiceMapImpl(PetService petService, PetTypeService petTypeService) {
+        this.petService = petService;
+        this.petTypeService = petTypeService;
+    }
 
     @Override
     public Owner findByLastName(String lastName) {
@@ -29,6 +39,19 @@ public class OwnerServiceMapImpl extends AbstractMapService<Owner> implements Ow
 
     @Override
     public Owner save(Owner object) {
+
+        if (object.getPets() != null) {
+            object.getPets().forEach(pet -> {
+                if (pet.getPetType() == null) throw new RuntimeException("Pet Type is required");
+                if (pet.getPetType().getId() == null) {
+                    pet.setPetType(petTypeService.save(pet.getPetType()));
+                }
+                if (pet.getId() == null) {
+                    pet.setId(petService.save(pet).getId());
+                }
+            });
+        }
+
         return super.save(object);
     }
 

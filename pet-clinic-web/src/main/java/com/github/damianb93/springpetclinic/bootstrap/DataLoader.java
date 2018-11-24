@@ -1,14 +1,13 @@
 package com.github.damianb93.springpetclinic.bootstrap;
 
-import com.github.damianb93.springpetclinic.model.Owner;
-import com.github.damianb93.springpetclinic.model.Person;
-import com.github.damianb93.springpetclinic.model.PetType;
-import com.github.damianb93.springpetclinic.model.Vet;
+import com.github.damianb93.springpetclinic.model.*;
 import com.github.damianb93.springpetclinic.services.OwnerService;
 import com.github.damianb93.springpetclinic.services.PetTypeService;
 import com.github.damianb93.springpetclinic.services.VetService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -27,17 +26,36 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //LOADING OWNERS
-        createPerson(new Owner(), "Michael", "Weston");
-        createPerson(new Owner(),  "Fiona", "Glenanne");
-        createPerson(new Owner(), "Jack", "Glenanne");
+        Owner owner1 = new Owner();
+        owner1.setFirstName("Michael");
+        owner1.setLastName("Weston");
+        owner1.setAddress("123 Brickerel");
+        owner1.setCity("Miami");
+        owner1.setTelephone("1231231234");
 
+        Owner owner2 = new Owner();
+        owner2.setFirstName("Fiona");
+        owner2.setLastName("Glenanne");
+        owner2.setAddress("123 Brickerel");
+        owner2.setCity("Miami");
+        owner2.setTelephone("1231231234");
+
+        ownerService.save(owner1);
+        ownerService.save(owner2);
         System.out.println("LOADED OWNERS...");
 
 
         //LOADING VETS
-        createPerson(new Vet(), "Sam", "Axe");
-        createPerson(new Vet(), "Jessie", "Porter");
+        Vet vet1 = new Vet();
+        vet1.setFirstName("Sam");
+        vet1.setLastName("Axe");
 
+        Vet vet2 = new Vet();
+        vet2.setFirstName("Jessie");
+        vet2.setLastName("Porter");
+
+        vetService.save(vet1);
+        vetService.save(vet2);
         System.out.println("LOADED VETS...");
 
 
@@ -48,18 +66,25 @@ public class DataLoader implements CommandLineRunner {
         PetType cat = new PetType();
         dog.setName("Cat");
 
-        petTypeService.save(dog);
-        petTypeService.save(cat);
-
         System.out.println("LOADED PET TYPES...");
 
-    }
+        //LOADING PETS
+        Pet pet1 = new Pet();
+        pet1.setName("Rosco");
+        pet1.setPetType(dog);
+        pet1.setOwner(owner1);
+        pet1.setBirthDate(LocalDate.now());
 
-    private <T extends Person> void createPerson (T person, String firstName, String lastName) {
-        person.setFirstName(firstName);
-        person.setLastName(lastName);
+        owner1.getPets().add(pet1);
 
-        if (person instanceof Owner) ownerService.save((Owner) person);
-        if (person instanceof Vet) vetService.save((Vet) person);
+        Pet pet2 = new Pet();
+        pet2.setName("Just cat");
+        pet2.setPetType(cat);
+        pet2.setOwner(owner2);
+        pet2.setBirthDate(LocalDate.now());
+
+        owner2.getPets().add(pet2);
+
+        System.out.println("LOADED PETS...");
     }
 }
