@@ -4,6 +4,33 @@ import com.github.damianb93.springpetclinic.model.Vet;
 import com.github.damianb93.springpetclinic.services.VetService;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class VetServiceMapImpl extends AbstractMapService<Vet> implements VetService {
+
+    @Override
+    public Set<Vet> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    public Vet findById(Long id) {
+        return super.findById(id);
+    }
+
+    @Override
+    public Vet save(Vet object) {
+        return super.save(object);
+    }
+
+    @Override
+    public void delete(Vet object) {
+        super.delete(object);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        super.deleteById(id);
+    }
 }
