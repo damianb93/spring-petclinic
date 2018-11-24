@@ -24,7 +24,10 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        loadData();
+    }
 
+    private void loadData() {
         //LOADING OWNERS
         Owner owner1 = new Owner();
         owner1.setFirstName("Michael");
@@ -40,8 +43,6 @@ public class DataLoader implements CommandLineRunner {
         owner2.setCity("Miami");
         owner2.setTelephone("1231231234");
 
-        ownerService.save(owner1);
-        ownerService.save(owner2);
         System.out.println("LOADED OWNERS...");
 
 
@@ -54,8 +55,6 @@ public class DataLoader implements CommandLineRunner {
         vet2.setFirstName("Jessie");
         vet2.setLastName("Porter");
 
-        vetService.save(vet1);
-        vetService.save(vet2);
         System.out.println("LOADED VETS...");
 
 
@@ -67,6 +66,7 @@ public class DataLoader implements CommandLineRunner {
         dog.setName("Cat");
 
         System.out.println("LOADED PET TYPES...");
+
 
         //LOADING PETS
         Pet pet1 = new Pet();
@@ -86,5 +86,30 @@ public class DataLoader implements CommandLineRunner {
         owner2.getPets().add(pet2);
 
         System.out.println("LOADED PETS...");
+
+
+        //LOADING SPECIALITIES
+        Speciality spec1 = new Speciality();
+        spec1.setDescription("radiology");
+
+        Speciality spec2 = new Speciality();
+        spec2.setDescription("surgery");
+
+        Speciality spec3 = new Speciality();
+        spec3.setDescription("dentistry");
+
+        vet1.getSpecialities().add(spec1);
+        vet2.getSpecialities().add(spec2);
+        vet2.getSpecialities().add(spec3);
+
+        System.out.println("LOADED SPECIALITIES...");
+
+        //SAVING CONTENT
+
+        ownerService.save(owner1);
+        ownerService.save(owner2);
+
+        vetService.save(vet1);
+        vetService.save(vet2);
     }
 }
