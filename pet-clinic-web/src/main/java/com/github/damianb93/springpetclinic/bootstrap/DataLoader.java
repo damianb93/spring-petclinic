@@ -4,6 +4,7 @@ import com.github.damianb93.springpetclinic.model.*;
 import com.github.damianb93.springpetclinic.services.OwnerService;
 import com.github.damianb93.springpetclinic.services.PetTypeService;
 import com.github.damianb93.springpetclinic.services.VetService;
+import com.github.damianb93.springpetclinic.services.VisitService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,16 +16,20 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
+        this.visitService = visitService;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        loadData();
+    public void run(String... args) {
+
+        if (petTypeService.findAll().size() == 0) loadData();
+
     }
 
     private void loadData() {
@@ -63,7 +68,7 @@ public class DataLoader implements CommandLineRunner {
         dog.setName("Dog");
 
         PetType cat = new PetType();
-        dog.setName("Cat");
+        cat.setName("Cat");
 
         System.out.println("LOADED PET TYPES...");
 
@@ -78,7 +83,7 @@ public class DataLoader implements CommandLineRunner {
         owner1.getPets().add(pet1);
 
         Pet pet2 = new Pet();
-        pet2.setName("Just cat");
+        pet2.setName("Bella");
         pet2.setPetType(cat);
         pet2.setOwner(owner2);
         pet2.setBirthDate(LocalDate.now());
@@ -111,5 +116,21 @@ public class DataLoader implements CommandLineRunner {
 
         vetService.save(vet1);
         vetService.save(vet2);
+
+        //LOADING VISITS
+        Visit pet1Visit = new Visit();
+        pet1Visit.setPet(pet1);
+        pet1Visit.setDate(LocalDate.now());
+        pet1Visit.setDescription("Rosco the doge");
+
+        Visit pet2Visit = new Visit();
+        pet2Visit.setPet(pet2);
+        pet2Visit.setDate(LocalDate.now());
+        pet2Visit.setDescription("Bella the cat");
+
+        visitService.save(pet1Visit);
+        visitService.save(pet2Visit);
+
+        System.out.println("LOADED VISITS...");
     }
 }
