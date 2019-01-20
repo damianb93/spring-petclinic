@@ -1,10 +1,7 @@
 package com.github.damianb93.springpetclinic.bootstrap;
 
 import com.github.damianb93.springpetclinic.model.*;
-import com.github.damianb93.springpetclinic.services.OwnerService;
-import com.github.damianb93.springpetclinic.services.PetTypeService;
-import com.github.damianb93.springpetclinic.services.VetService;
-import com.github.damianb93.springpetclinic.services.VisitService;
+import com.github.damianb93.springpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +13,14 @@ public class DataLoader implements CommandLineRunner {
     private final OwnerService ownerService;
     private final VetService vetService;
     private final PetTypeService petTypeService;
+    private final SpecialityService specialityService;
     private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, VisitService visitService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
+        this.specialityService = specialityService;
         this.visitService = visitService;
     }
 
@@ -70,6 +69,9 @@ public class DataLoader implements CommandLineRunner {
         PetType cat = new PetType();
         cat.setName("Cat");
 
+        petTypeService.save(dog);
+        petTypeService.save(cat);
+
         System.out.println("LOADED PET TYPES...");
 
 
@@ -106,6 +108,10 @@ public class DataLoader implements CommandLineRunner {
         vet1.getSpecialities().add(spec1);
         vet2.getSpecialities().add(spec2);
         vet2.getSpecialities().add(spec3);
+
+        specialityService.save(spec1);
+        specialityService.save(spec2);
+        specialityService.save(spec3);
 
         System.out.println("LOADED SPECIALITIES...");
 
