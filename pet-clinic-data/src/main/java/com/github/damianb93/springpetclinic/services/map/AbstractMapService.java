@@ -19,6 +19,7 @@ public abstract class AbstractMapService<T extends BaseEntity> {
     public T save(T object) {
         if (object == null) throw new RuntimeException("Object cannot be null");
         if (object.getId() == null) object.setId(getNextId());
+        if (map.containsKey(object.getId())) throw new RuntimeException("Object with given id already exists");
 
         map.put(object.getId(), object);
 

@@ -24,7 +24,7 @@ public class OwnerServiceMapImpl extends AbstractMapService<Owner> implements Ow
     @Override
     public Owner findByLastName(String lastName) {
         return map.values().stream()
-            .filter(obj -> obj.getLastName().equals(lastName))
+            .filter(obj -> obj.getLastName().equalsIgnoreCase(lastName))
             .findFirst()
             .orElse(null);
     }
@@ -42,8 +42,9 @@ public class OwnerServiceMapImpl extends AbstractMapService<Owner> implements Ow
     @Override
     public Owner save(Owner object) {
 
-        if (!object.getPets().isEmpty()) {
+        if (object.getPets() != null && !object.getPets().isEmpty()) {
             object.getPets().forEach(pet -> {
+                if (pet == null) throw new RuntimeException("Pet cannot be null");
                 if (pet.getPetType() == null) throw new RuntimeException("Pet Type is required");
                 if (pet.getPetType().getId() == null) {
                     pet.setPetType(petTypeService.save(pet.getPetType()));
