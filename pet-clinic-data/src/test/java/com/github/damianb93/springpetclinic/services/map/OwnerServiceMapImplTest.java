@@ -20,6 +20,7 @@ class OwnerServiceMapImplTest {
     void setUp() {
         ownerServiceMap = new OwnerServiceMapImpl(new PetServiceMapImpl(), new PetTypeServiceMapImpl());
         ownerServiceMap.save(Owner.builder().id(ownerId).lastName(ownerLastName).build());
+        ownerServiceMap.save(Owner.builder().id(2L).lastName("Smith").build());
     }
 
     @Test
@@ -38,8 +39,29 @@ class OwnerServiceMapImplTest {
     }
 
     @Test
+    void findAllByEmptyLastName() {
+        Set<Owner> owners = ownerServiceMap.findAllByLastName("");
+
+        assertEquals(2, owners.size());
+    }
+
+    @Test
+    void findAllByPartOfLastName() {
+        Set<Owner> owners = ownerServiceMap.findAllByLastName("ames");
+
+        assertEquals(1, owners.size());
+    }
+
+    @Test
+    void findAllByDifferentCaseLastName() {
+        Set<Owner> owners = ownerServiceMap.findAllByLastName("AmEs");
+        
+        assertEquals(1, owners.size());
+    }
+
+    @Test
     void findAll() {
-        assertEquals(1, ownerServiceMap.findAll().size());
+        assertEquals(2, ownerServiceMap.findAll().size());
     }
 
     @Test
@@ -57,7 +79,7 @@ class OwnerServiceMapImplTest {
 
     @Test
     void saveWithId() {
-        Long id = 2L;
+        Long id = 3L;
         Owner owner = Owner.builder().id(id).build();
         Owner savedOwner = ownerServiceMap.save(owner);
 
@@ -115,12 +137,12 @@ class OwnerServiceMapImplTest {
     @Test
     void delete() {
         ownerServiceMap.delete(ownerServiceMap.findById(ownerId));
-        assertEquals(0, ownerServiceMap.findAll().size());
+        assertEquals(1, ownerServiceMap.findAll().size());
     }
 
     @Test
     void deleteById() {
         ownerServiceMap.deleteById(ownerId);
-        assertEquals(0, ownerServiceMap.findAll().size());
+        assertEquals(1, ownerServiceMap.findAll().size());
     }
 }

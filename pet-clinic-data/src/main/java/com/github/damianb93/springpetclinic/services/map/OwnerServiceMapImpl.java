@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Profile({"default", "map"})
@@ -27,6 +28,13 @@ public class OwnerServiceMapImpl extends AbstractMapService<Owner> implements Ow
             .filter(obj -> obj.getLastName().equalsIgnoreCase(lastName))
             .findFirst()
             .orElse(null);
+    }
+
+    @Override
+    public Set<Owner> findAllByLastName(String lastName) {
+        return map.values().stream()
+                .filter(obj -> obj.getLastName().toUpperCase().contains(lastName.toUpperCase()))
+                .collect(Collectors.toSet());
     }
 
     @Override
