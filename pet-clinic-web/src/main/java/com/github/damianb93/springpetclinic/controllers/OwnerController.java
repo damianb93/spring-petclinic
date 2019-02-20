@@ -62,7 +62,6 @@ public class OwnerController {
     public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId) {
         ModelAndView mav = new ModelAndView(OWNER_DETAILS_VIEW);
         Owner owner = ownerService.findById(ownerId);
-        owner.getPets().forEach(pet -> System.out.println("Pet - " + pet.getId() + ", " + pet.getName()));
         mav.addObject(owner);
 
         return mav;
