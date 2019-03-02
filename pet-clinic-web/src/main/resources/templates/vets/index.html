@@ -5,21 +5,22 @@
   <title>List of vets</title>
 </head>
 <body>
-  <h2 th:text="'List of vets'">List of vets</h2>
+  <h2 th:text="'Veterinarians'">Veterinarians</h2>
 
   <table class="table table-striped">
     <thead>
     <tr>
-      <th>ID</th>
-      <th>First name</th>
-      <th>Last name</th>
+      <th>Name</th>
+      <th>Specialties</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="vet : ${vets}">
-      <td th:text="${vet.getId()}">ID</td>
-      <td th:text="${vet.getFirstName()}">First name</td>
-      <td th:text="${vet.getLastName()}">Last name</td>
+      <td th:text="${vet.getFirstName()} + ' ' + ${vet.getLastName()}"></td>
+      <td>
+        <span th:each="speciality : ${vet.getSpecialities()}" th:text="${speciality.getDescription()} + ' '"></span>
+        <span th:if="${vet?.getSpecialities()?.size() == 0}">none</span>
+      </td>
     </tr>
     </tbody>
   </table>
