@@ -12,9 +12,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -74,6 +76,16 @@ class OwnerControllerTest {
         mockMvc.perform(get("/owners"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/owners/1"));
+    }
+
+    @Test
+    void processFindFormEmptyReturnMany() throws Exception {
+        when(service.findAllByLastName(anyString())).thenReturn(returnSet);
+
+        mockMvc.perform(get("/owners").param("lastName", ""))
+            .andExpect(status().isOk())
+            .andExpect(view().name("owners/ownersList"))
+            .andExpect(model().attribute("selections", hasSize(2)));
     }
 
     @Test
